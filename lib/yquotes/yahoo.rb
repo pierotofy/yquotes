@@ -15,13 +15,13 @@ module YQuotes
     end
 
     # fetch_csv: fetch historical quotes in csv format
-    def fetch_csv(ticker, start_date = nil, end_date = nil, period = 'd')
+    def fetch_csv(ticker, start_date = nil, end_date = nil, period = 'd', type = 'quote')
       connection = nil
 
       # retry 3-times in case it sends unauthorized
       3.times do |_i|
         begin
-          url = build_url(ticker, start_date, end_date, period)
+          url = build_url(ticker, start_date, end_date, period, type)
           connection = open(url, 'Cookie' => @cookie)
           break
         rescue OpenURI::HTTPError => e
@@ -56,15 +56,21 @@ module YQuotes
     end
 
     # build_params: build parameters for get query
-    def build_url(ticker, start_date = nil, end_date = nil, period = 'd')
+    def build_url(ticker, start_date = nil, end_date = nil, period = 'd', type = 'quote')
       url = QUOTE_ENDPOINT
       url = format(url, symbol: URI.escape(ticker.upcase))
 
       params = {
         crumb: URI.escape(@crumb),
-        events: 'history',
         interval: '1d'
       }
+
+      if type == 'quote'
+        params[:events] = 'history'
+      elsif type == 'splits'
+        params[:events] = 'div|split'
+        params[:filter] = 'split'
+      end
 
       # sanitize date
       params[:period1] = get_date(start_date).to_i unless start_date.nil?
