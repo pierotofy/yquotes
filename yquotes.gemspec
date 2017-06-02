@@ -1,30 +1,43 @@
-# coding: utf-8
+# -*- encoding: utf-8 -*-
+# stub: yquotes 1.4.0 ruby lib
 
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'yquotes/version'
+Gem::Specification.new do |s|
+  s.name = "yquotes".freeze
+  s.version = "1.4.0"
 
-Gem::Specification.new do |spec|
-  spec.name          = 'yquotes'
-  spec.version       = YQuotes::VERSION
-  spec.authors       = ['P Choudhary']
-  spec.email         = ['pankaj17n@outlook.com']
+  s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
+  s.require_paths = ["lib".freeze]
+  s.authors = ["P Choudhary".freeze]
+  s.bindir = "exe".freeze
+  s.date = "2017-06-02"
+  s.email = ["pankaj17n@outlook.com".freeze]
+  s.files = [".gitignore".freeze, ".rspec".freeze, ".travis.yml".freeze, "Gemfile".freeze, "LICENSE.txt".freeze, "README.md".freeze, "Rakefile".freeze, "bin/console".freeze, "bin/setup".freeze, "lib/yquotes.rb".freeze, "lib/yquotes/version.rb".freeze, "lib/yquotes/yahoo.rb".freeze, "yquotes.gemspec".freeze]
+  s.homepage = "https://github.com/cpankaj/yquotes".freeze
+  s.licenses = ["MIT".freeze]
+  s.rubygems_version = "2.6.10".freeze
+  s.summary = "Get historical quotes from Yahoo Finance".freeze
 
-  spec.summary       = 'Get historical quotes from Yahoo Finance'
-  spec.homepage      = 'https://github.com/cpankaj/yquotes'
-  spec.license       = 'MIT'
+  if s.respond_to? :specification_version then
+    s.specification_version = 4
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_development_dependency(%q<bundler>.freeze, ["~> 1.14"])
+      s.add_development_dependency(%q<rake>.freeze, ["~> 10.0"])
+      s.add_development_dependency(%q<rspec>.freeze, ["~> 3.0"])
+      s.add_runtime_dependency(%q<daru>.freeze, ["~> 0.1.5"])
+      s.add_runtime_dependency(%q<nokogiri>.freeze, ["~> 1.7.2"])
+    else
+      s.add_dependency(%q<bundler>.freeze, ["~> 1.14"])
+      s.add_dependency(%q<rake>.freeze, ["~> 10.0"])
+      s.add_dependency(%q<rspec>.freeze, ["~> 3.0"])
+      s.add_dependency(%q<daru>.freeze, ["~> 0.1.5"])
+      s.add_dependency(%q<nokogiri>.freeze, ["~> 1.7.2"])
+    end
+  else
+    s.add_dependency(%q<bundler>.freeze, ["~> 1.14"])
+    s.add_dependency(%q<rake>.freeze, ["~> 10.0"])
+    s.add_dependency(%q<rspec>.freeze, ["~> 3.0"])
+    s.add_dependency(%q<daru>.freeze, ["~> 0.1.5"])
+    s.add_dependency(%q<nokogiri>.freeze, ["~> 1.7.2"])
   end
-  spec.bindir        = 'exe'
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ['lib']
-
-  spec.add_development_dependency 'bundler', '~> 1.14'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-
-  spec.add_dependency 'daru', '~> 0.1.5'
-  spec.add_dependency 'nokogiri', '~> 1.7.2'
 end

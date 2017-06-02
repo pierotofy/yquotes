@@ -51,13 +51,16 @@ module YQuotes
     private
 
     def create_splits_from_csv(data)
-      df = create_from_csv(data, 'splits')
-      #df.rename_vectors 'Date' => :date, 'Volume' => :volume, 'Adj Close' => :adj_close, 'Open' => :open, 'Close' => :close, 'High' => :high, 'Low' => :low
-      #d = df.filter(:row) { |row| row[:volume] > 0 }
+      return if Daru::DataFrame.new(date: []) if data.length <= 1
 
+      df = create_from_csv(data, 'splits')
+      df.rename_vectors 'Date' => :date, 'Stock Splits' => :splits
+      df
     end
 
     def create_quotes_from_csv(data)
+      return if Daru::DataFrame.new(date: []) if data.length <= 1
+      
       df = create_from_csv(data, 'quote')
       df.rename_vectors 'Date' => :date, 'Volume' => :volume, 'Adj Close' => :adj_close, 'Open' => :open, 'Close' => :close, 'High' => :high, 'Low' => :low
       d = df.filter(:row) { |row| row[:volume] > 0 }
@@ -78,7 +81,7 @@ module YQuotes
       File.delete(file_path) if File.exist?(file_path)
 
       # sort from earlier to latest
-      df = df.sort ['Date']
+      df = df.sort ['Date'], ascending: [false]
 
       # strip columns and create index
       df.index = Daru::Index.new(df['Date'].to_a)
